@@ -5,13 +5,13 @@ import Header from "./components/Header";
 
 function App() {
   function handleNameChange() {
-    const names = ["Bob", "Kevin", "Dave"];
-    const int = Math.floor(Math.random() * 3);
+    const names = ["Bob", "Kevin", "Dave", "Matt", "Henry"];
+    const int = Math.floor(Math.random() * 5);
     return names[int];
   }
 
   return (
-    <div>
+    <div className="App">
       <Header />
       <Content handleNameChange={handleNameChange} />
       <Footer />

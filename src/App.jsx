@@ -1,10 +1,9 @@
 import React from "react";
-import Name from "./components/Name";
-import RandomName from "./components/RandomName";
+import Content from "./components/Content";
+import Footer from "./components/Footer";
+import Header from "./components/Header";
 
 function App() {
-  const name = "Henry";
-
   function handleNameChange() {
     const names = ["Bob", "Kevin", "Dave"];
     const int = Math.floor(Math.random() * 3);
@@ -13,9 +12,9 @@ function App() {
 
   return (
     <div>
-      <h1>Dave Gray | React | Tutorial-01</h1>
-      <Name name={name} />
-      <RandomName handleNameChange={`Hello ${handleNameChange()}!`} />
+      <Header />
+      <Content handleNameChange={handleNameChange} />
+      <Footer />
     </div>
   );
 }

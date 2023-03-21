@@ -1,27 +1,37 @@
 /* eslint-disable react/prop-types */
 import React from "react";
+import { HiOutlineTrash } from "react-icons/hi";
 
-function Content({ handleNameChange, name, count, setCount }) {
-  function handleClick() {
-    console.log(count);
-  }
-
-  // function handleClick2(name) {
-  //   console.log(`${name} was clicked`);
-  // }
-
-  function handleClick3(e) {
-    console.log(e);
-  }
-
+function Content({ items, handleCheck, handleDelete }) {
   return (
     <main>
-      <p onDoubleClick={handleClick}>Hello {name}!</p>
-      <button onClick={handleNameChange}>Change Name!</button>
-      <button onClick={() => handleClick(setCount(count + 1))}>
-        Click it!
-      </button>
-      <button onClick={(e) => handleClick3(e)}>Click it!</button>
+      {items.length ? (
+        <ul>
+          {items.map((item) => (
+            <li key={item.id} className="item">
+              <input
+                type="checkbox"
+                onChange={() => handleCheck(item.id)}
+                checked={item.checked}
+              />
+              <label
+                onClick={() => handleCheck(item.id)}
+                style={
+                  item.checked ? { textDecoration: "line-through" } : null
+                }>
+                {item.item}
+              </label>
+              <HiOutlineTrash
+                onClick={() => handleDelete(item.id)}
+                role="button"
+                tabIndex="0"
+              />
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p style={{ marginTop: "2rem" }}>Your list is empty.</p>
+      )}
     </main>
   );
 }

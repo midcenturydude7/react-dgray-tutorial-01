@@ -1,14 +1,14 @@
 /* eslint-disable react/prop-types */
 import React from "react";
 
-function Content({ handleNameChange }) {
+function Content({ handleNameChange, name, count, setCount }) {
   function handleClick() {
-    console.log("You clicked it!");
+    console.log(count);
   }
 
-  function handleClick2(name) {
-    console.log(`${name} was clicked`);
-  }
+  // function handleClick2(name) {
+  //   console.log(`${name} was clicked`);
+  // }
 
   function handleClick3(e) {
     console.log(e);
@@ -16,9 +16,11 @@ function Content({ handleNameChange }) {
 
   return (
     <main>
-      <p onDoubleClick={handleClick}>Hello {handleNameChange()}!</p>
-      <button onClick={handleClick}>Click it!</button>
-      <button onClick={() => handleClick2("Matt")}>Click it!</button>
+      <p onDoubleClick={handleClick}>Hello {name}!</p>
+      <button onClick={handleNameChange}>Change Name!</button>
+      <button onClick={() => handleClick(setCount(count + 1))}>
+        Click it!
+      </button>
       <button onClick={(e) => handleClick3(e)}>Click it!</button>
     </main>
   );

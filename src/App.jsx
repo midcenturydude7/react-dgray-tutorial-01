@@ -44,13 +44,13 @@ function App() {
 
   return (
     <div className="App">
-      <Header title="Groceries" />
+      <Header title="Grocery List" />
       <Content
         items={items}
         handleCheck={handleCheck}
         handleDelete={handleDelete}
       />
-      <Footer />
+      <Footer length={items.length} />
     </div>
   );
 }

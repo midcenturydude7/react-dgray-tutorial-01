@@ -4,38 +4,14 @@ import Content from "./components/Content";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import AddItem from "./components/AddItem";
+import SearchItem from "./components/SearchItem";
 
 function App() {
-  const [items, setItems] = React.useState([
-    {
-      id: 1,
-      checked: true,
-      item: "One half pound bag of Cocoa Covered Almonds Unsalted",
-    },
-    {
-      id: 2,
-      checked: false,
-      item: "Item 2",
-    },
-    {
-      id: 3,
-      checked: false,
-      item: "Item 3",
-    },
-  ]);
-
-  function handleCheck(id) {
-    const listItems = items.map((item) =>
-      item.id === id
-        ? {
-            ...item,
-            checked: !item.checked,
-          }
-        : item
-    );
-    setAndSaveItems(listItems);
-  }
+  const [items, setItems] = React.useState(
+    JSON.parse(localStorage.getItem("shoppingList"))
+  );
   const [newItem, setNewItem] = React.useState("");
+  const [search, setSearch] = React.useState("");
 
   function setAndSaveItems(newItems) {
     setItems(newItems);
@@ -46,6 +22,18 @@ function App() {
     const id = items.length ? items[items.length - 1].id + 1 : 1;
     const myNewItem = { id, checked: false, item };
     const listItems = [...items, myNewItem];
+    setAndSaveItems(listItems);
+  }
+
+  function handleCheck(id) {
+    const listItems = items.map((item) =>
+      item.id === id
+        ? {
+            ...item,
+            checked: !item.checked,
+          }
+        : item
+    );
     setAndSaveItems(listItems);
   }
 
@@ -69,8 +57,11 @@ function App() {
         setNewItem={setNewItem}
         handleSubmit={handleSubmit}
       />
+      <SearchItem search={search} setSearch={setSearch} />
       <Content
-        items={items}
+        items={items.filter((item) =>
+          item.item.toLowerCase().includes(search.toLowerCase())
+        )}
         handleCheck={handleCheck}
         handleDelete={handleDelete}
       />

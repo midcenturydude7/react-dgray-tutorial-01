@@ -3,6 +3,7 @@ import React from "react";
 import Content from "./components/Content";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
+import AddItem from "./components/AddItem";
 
 function App() {
   const [items, setItems] = React.useState([
@@ -32,19 +33,42 @@ function App() {
           }
         : item
     );
-    setItems(listItems);
-    localStorage.setItem("shoppingList", JSON.stringify(listItems));
+    setAndSaveItems(listItems);
+  }
+  const [newItem, setNewItem] = React.useState("");
+
+  function setAndSaveItems(newItems) {
+    setItems(newItems);
+    localStorage.setItem("shoppingList", JSON.stringify(newItems));
+  }
+
+  function addItem(item) {
+    const id = items.length ? items[items.length - 1].id + 1 : 1;
+    const myNewItem = { id, checked: false, item };
+    const listItems = [...items, myNewItem];
+    setAndSaveItems(listItems);
   }
 
   function handleDelete(id) {
     const listItems = items.filter((item) => item.id !== id);
-    setItems(listItems);
-    localStorage.setItem("shoppingList", JSON.stringify(listItems));
+    setAndSaveItems(listItems);
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (!newItem) return;
+    addItem(newItem);
+    setNewItem("");
   }
 
   return (
     <div className="App">
       <Header title="Grocery List" />
+      <AddItem
+        newItem={newItem}
+        setNewItem={setNewItem}
+        handleSubmit={handleSubmit}
+      />
       <Content
         items={items}
         handleCheck={handleCheck}

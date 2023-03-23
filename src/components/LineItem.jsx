@@ -4,7 +4,7 @@ import { HiOutlineTrash } from "react-icons/hi";
 
 function LineItem({ item, handleCheck, handleDelete }) {
   return (
-    <li key={item.id} className="item">
+    <li className="item">
       <input
         type="checkbox"
         onChange={() => handleCheck(item.id)}

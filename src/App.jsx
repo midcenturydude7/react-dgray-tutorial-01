@@ -7,24 +7,21 @@ import AddItem from "./components/AddItem";
 import SearchItem from "./components/SearchItem";
 
 function App() {
-  const [items, setItems] = React.useState([]);
+  const [items, setItems] = React.useState(
+    JSON.parse(localStorage.getItem("shoppingList")) || []
+  );
   const [newItem, setNewItem] = React.useState("");
   const [search, setSearch] = React.useState("");
 
   React.useEffect(() => {
-    setItems(JSON.parse(localStorage.getItem("shoppingList")));
-  }, []);
-
-  function setAndSaveItems(newItems) {
-    setItems(newItems);
-    localStorage.setItem("shoppingList", JSON.stringify(newItems));
-  }
+    localStorage.setItem("shoppingList", JSON.stringify(items));
+  }, [items]);
 
   function addItem(item) {
     const id = items.length ? items[items.length - 1].id + 1 : 1;
     const myNewItem = { id, checked: false, item };
     const listItems = [...items, myNewItem];
-    setAndSaveItems(listItems);
+    setItems(listItems);
   }
 
   function handleCheck(id) {
@@ -36,12 +33,12 @@ function App() {
           }
         : item
     );
-    setAndSaveItems(listItems);
+    setItems(listItems);
   }
 
   function handleDelete(id) {
     const listItems = items.filter((item) => item.id !== id);
-    setAndSaveItems(listItems);
+    setItems(listItems);
   }
 
   function handleSubmit(e) {

@@ -7,11 +7,13 @@ import AddItem from "./components/AddItem";
 import SearchItem from "./components/SearchItem";
 
 function App() {
-  const [items, setItems] = React.useState(
-    JSON.parse(localStorage.getItem("shoppingList"))
-  );
+  const [items, setItems] = React.useState([]);
   const [newItem, setNewItem] = React.useState("");
   const [search, setSearch] = React.useState("");
+
+  React.useEffect(() => {
+    setItems(JSON.parse(localStorage.getItem("shoppingList")));
+  }, []);
 
   function setAndSaveItems(newItems) {
     setItems(newItems);

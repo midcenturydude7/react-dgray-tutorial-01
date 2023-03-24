@@ -3,10 +3,7 @@ import React from "react";
 
 function SearchItem({ search, setSearch }) {
   return (
-    <form
-      action="submit"
-      className="searchForm"
-      onSubmit={(e) => e.preventDefault()}>
+    <form className="searchForm" onSubmit={(e) => e.preventDefault()}>
       <label htmlFor="search">Search</label>
       <input
         id="search"

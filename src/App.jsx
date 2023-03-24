@@ -5,6 +5,7 @@ import Footer from "./components/Footer";
 import Header from "./components/Header";
 import AddItem from "./components/AddItem";
 import SearchItem from "./components/SearchItem";
+import apiRequest from "../utils/apiRequest";
 
 function App() {
   const API_URL = "http://localhost:3500/items";
@@ -29,17 +30,29 @@ function App() {
         setIsLoading(false);
       }
     };
+
     setTimeout(() => {
-      (async () => await fetchItems())();
+      (() => fetchItems())();
     }, 2000);
   }, []);
 
-  function addItem(item) {
+  const addItem = async (item) => {
     const id = items.length ? items[items.length - 1].id + 1 : 1;
     const myNewItem = { id, checked: false, item };
     const listItems = [...items, myNewItem];
     setItems(listItems);
-  }
+
+    const postOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(myNewItem),
+    };
+
+    const result = await apiRequest(API_URL, postOptions);
+    if (result) setFetchError(result);
+  };
 
   function handleCheck(id) {
     const listItems = items.map((item) =>
@@ -75,8 +88,8 @@ function App() {
       />
       <SearchItem search={search} setSearch={setSearch} />
       <main>
-        {isLoading && <p style={{ marginTop: "2em" }}>Loading Items...</p>}
-        {fetchError && <p style={{ color: "red" }}>{`Error ${fetchError}`}</p>}
+        {isLoading && <p>Loading Items...</p>}
+        {fetchError && <p style={{ color: "red" }}>{`Error: ${fetchError}`}</p>}
         {!fetchError && !isLoading && (
           <Content
             items={items.filter((item) =>
